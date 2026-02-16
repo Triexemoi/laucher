@@ -88,12 +88,10 @@
             align-items: center;
             justify-content: center;
             padding: 40px;
-            transition: all 0.5s;
         }
 
         .welcome-screen.hidden {
-            opacity: 0;
-            pointer-events: none;
+            display: none;
         }
 
         .welcome-card {
@@ -164,10 +162,6 @@
             align-items: center;
             justify-content: center;
             padding: 40px;
-        }
-
-        .customize-screen.active {
-            display: flex;
         }
 
         .customize-card {
@@ -774,4 +768,6 @@
     <div class="customize-screen" id="customizeScreen">
         <div class="customize-card">
             <h2 class="customize-title">🎨 Tùy chỉnh giao diện</h2>
-      
+            <div class="customize-section">
+                <label class="customize-label">Màu chủ đạo</label>
+                <div class="color
