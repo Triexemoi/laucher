@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kansha Launcher</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -20,27 +17,25 @@
             --secondary: #ec4899;
             --accent: #8b5cf6;
             --success: #10b981;
-            --warning: #f59e0b;
             --bg-start: #0f172a;
             --bg-end: #1e293b;
         }
 
         body {
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
             color: #f8fafc;
             overflow: hidden;
             height: 100vh;
-            position: relative;
         }
 
-        /* Background */
+        /* Background Animation */
         .bg-animation {
-            position: absolute;
+            position: fixed;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             z-index: 0;
+            overflow: hidden;
         }
 
         .bg-orb {
@@ -87,18 +82,17 @@
         .welcome-screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
             z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 40px;
-            transition: opacity 0.5s, transform 0.5s;
+            transition: all 0.5s;
         }
 
         .welcome-screen.hidden {
             opacity: 0;
-            transform: scale(0.95);
             pointer-events: none;
         }
 
@@ -130,10 +124,6 @@
             font-size: 32px;
             font-weight: 700;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #f8fafc, #cbd5e1);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         .welcome-subtitle {
@@ -152,26 +142,23 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
             margin-bottom: 12px;
-            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+            transition: transform 0.3s;
         }
 
         .welcome-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
         }
 
         .welcome-btn.secondary {
             background: linear-gradient(135deg, #8b5cf6, #ec4899);
-            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
         }
 
         /* Customize Screen */
         .customize-screen {
             position: fixed;
             inset: 0;
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
             z-index: 2000;
             display: none;
             align-items: center;
@@ -235,21 +222,6 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
         }
 
-        .customize-select {
-            width: 100%;
-            padding: 14px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .customize-select option {
-            background: #1e293b;
-        }
-
         /* Launcher */
         .launcher-container {
             position: relative;
@@ -269,8 +241,6 @@
             backdrop-filter: blur(10px);
         }
 
-        .time { font-family: 'Space Mono', monospace; }
-
         .home-screen {
             flex: 1;
             padding: 20px;
@@ -279,7 +249,9 @@
             overflow-y: auto;
         }
 
-        .home-screen::-webkit-scrollbar { display: none; }
+        .home-screen::-webkit-scrollbar {
+            display: none;
+        }
 
         .search-bar {
             background: rgba(255, 255, 255, 0.08);
@@ -291,12 +263,6 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            transition: all 0.3s;
-        }
-
-        .search-bar:focus-within {
-            background: rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
         .search-bar input {
@@ -324,7 +290,9 @@
             transition: transform 0.3s;
         }
 
-        .app-icon:active { transform: scale(0.9); }
+        .app-icon:active {
+            transform: scale(0.9);
+        }
 
         .app-icon-bg {
             width: 65px;
@@ -338,19 +306,12 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
-        }
-
-        .app-icon:hover .app-icon-bg {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .app-name {
             font-size: 12px;
             font-weight: 500;
             text-align: center;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
         }
 
         /* Dock */
@@ -379,21 +340,11 @@
             font-size: 28px;
             cursor: pointer;
             transition: transform 0.3s;
-            position: relative;
         }
 
-        .dock-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.05));
-            opacity: 0;
-            transition: opacity 0.3s;
+        .dock-icon:active {
+            transform: scale(0.9);
         }
-
-        .dock-icon:hover::before { opacity: 1; }
-        .dock-icon:active { transform: scale(0.9); }
 
         /* App Window */
         .app-window {
@@ -402,14 +353,16 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
             z-index: 1000;
             display: flex;
             flex-direction: column;
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .app-window.active { transform: translateY(-100%); }
+        .app-window.active {
+            transform: translateY(-100%);
+        }
 
         .app-header {
             background: rgba(0, 0, 0, 0.3);
@@ -431,12 +384,7 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
             font-size: 20px;
-        }
-
-        .back-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
         }
 
         .app-title {
@@ -451,7 +399,7 @@
             padding: 20px;
         }
 
-        /* Settings Specific */
+        /* Settings */
         .settings-section {
             background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(20px);
@@ -510,13 +458,7 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
             font-size: 14px;
-        }
-
-        .account-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
         }
 
         .account-btn.secondary {
@@ -566,18 +508,12 @@
             padding: 14px;
             color: #f8fafc;
             font-size: 14px;
-            transition: all 0.3s;
         }
 
         .form-input:focus {
             outline: none;
             background: rgba(255, 255, 255, 0.08);
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .form-input::placeholder {
-            color: #94a3b8;
         }
 
         .form-btn {
@@ -590,14 +526,7 @@
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
             margin-top: 10px;
-            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
-        }
-
-        .form-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
         }
 
         .form-footer {
@@ -611,11 +540,6 @@
             color: var(--primary);
             font-weight: 600;
             cursor: pointer;
-            text-decoration: none;
-        }
-
-        .form-link:hover {
-            text-decoration: underline;
         }
 
         .back-to-account {
@@ -627,11 +551,7 @@
             font-size: 14px;
         }
 
-        .back-to-account:hover {
-            color: white;
-        }
-
-        /* Logged In State */
+        /* Logged In */
         .logged-in-state {
             display: none;
             padding: 25px;
@@ -674,12 +594,6 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
         }
 
         /* Market */
@@ -706,10 +620,26 @@
             flex-shrink: 0;
         }
 
-        .market-info { flex: 1; }
-        .market-name { font-size: 16px; font-weight: 600; margin-bottom: 5px; }
-        .market-desc { font-size: 12px; color: #cbd5e1; margin-bottom: 5px; }
-        .market-rating { font-size: 12px; color: var(--warning); }
+        .market-info {
+            flex: 1;
+        }
+
+        .market-name {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .market-desc {
+            font-size: 12px;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+        }
+
+        .market-rating {
+            font-size: 12px;
+            color: #f59e0b;
+        }
 
         .market-btn {
             background: var(--success);
@@ -719,7 +649,6 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
-            white-space: nowrap;
         }
 
         .market-btn:disabled {
@@ -727,7 +656,7 @@
             cursor: not-allowed;
         }
 
-        /* Game Canvas */
+        /* Game */
         .game-canvas {
             background: rgba(0, 0, 0, 0.5);
             border-radius: 15px;
@@ -739,4 +668,110 @@
 
         .game-score {
             text-align: center;
-           
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .game-btn {
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 25px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* Calculator */
+        .calculator {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .calc-display {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: right;
+            font-size: 36px;
+            margin-bottom: 20px;
+            min-height: 80px;
+            word-break: break-all;
+        }
+
+        .calc-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .calc-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .calc-btn.operator {
+            background: var(--primary);
+        }
+
+        .calc-btn.equals {
+            background: var(--success);
+            grid-column: span 2;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 15px 25px;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation">
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        <div class="bg-orb orb-3"></div>
+    </div>
+
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="welcome-card">
+            <div class="welcome-logo">🚀</div>
+            <h1 class="welcome-title">Kansha Launcher</h1>
+            <p class="welcome-subtitle">Trải nghiệm launcher hiện đại</p>
+            <button class="welcome-btn" onclick="enterLauncher()">▶️ Vào ngay</button>
+            <button class="welcome-btn secondary" onclick="openCustomize()">🎨 Tùy chỉnh</button>
+        </div>
+    </div>
+
+    <div class="customize-screen" id="customizeScreen">
+        <div class="customize-card">
+            <h2 class="customize-title">🎨 Tùy chỉnh giao diện</h2>
+      
